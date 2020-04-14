@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>QUOTE MACHINE</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      rel="stylesheet"
+      integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./style.css" />
+    <script src="jquery-3.4.1.js"></script>
+  </head>
+  <body>
+    <div class="container-fluid" id="body">
+      <div class="row">
+        <div
+          class="col-12 d-flex justify-content-center align-items-center"
+          id="wrapper"
+        >
+          <div class="card">
+            <div class="card-body" id="quote-box">
+              <blockquote class="blockquote mb-0">
+                <span class="fa fa-quote-left"></span>
+                <p id="text"></p>
+                <p class="blockquote-footer mb-3" id="author"></p>
+              </blockquote>
+              <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-between">
+                  <a id="tweet-quote" target="_blank">
+                    <button class="btn btn-primary mr-4">
+                      <span class="fa fa-twitter"></span></button
+                  ></a>
+                </div>
+                <button class="btn btn-primary" id="new-quote">
+                  New Quote
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <footer class="d-flex justify-content-center align-items-center w-100">
+          <p>
+            &copy2020 created by
+            <a href="https://web.facebook.com/boadusamuel" target="_blank"
+              >Sam</a
+            >
+          </p>
+        </footer>
+      </div>
+    </div>
+    <script>
+      let quotesData;
+      var quote = newQuotes();
+      var author = "";
+      var colors = [
+        "#fbd014",
+        "#e0ffff",
+        "#6cc0a1",
+        "#bbb7ed",
+        "#78ef3e",
+        "#33ff66",
+        "#00ffff",
+      ];
+
+      function newQuotes() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "https://api.quotable.io/random", true);
+        xhr.onload = function () {
+          quotesData = JSON.parse(xhr.responseText);
+          quote = quotesData.content;
+          author = quotesData.author;
+          document.getElementById("text").innerHTML = quote;
+          document.getElementById("author").innerHTML = author;
+          var color = Math.floor(Math.random() * colors.length);
+          $("#body").css("background", colors[color]);
+        };
+
+        xhr.send();
+      }
+
+      $(document).ready(function () {
+        $("#text").html(quote);
+        $("#author").html(author);
+        $("#new-quote").on("click", newQuotes);
+        $("#tweet-quote").on("click", function () {
+          $("a").attr(
+            "href",
+            "https://twitter.com/intent/tweet?text=" +
+              encodeURIComponent(`"${quote}"  ${author}  #quote`)
+          );
+        });
+      });
+    </script>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
