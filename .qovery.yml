@@ -1,0 +1,11 @@
+---
+application:
+  name: "quotemachine"
+  project: "sams-quote"
+  organization: "QoveryCommunity"
+routers:
+- name: "main-quotemachine"
+  routes:
+  - application_name: "quotemachine"
+    paths:
+    - "/*"
